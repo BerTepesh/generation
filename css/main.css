@@ -54,9 +54,14 @@
   height: 63px; }
 
 .icon-co2 {
-  background-position: -243px -137px;
+  background-position: -176px -45px;
   width: 4px;
   height: 14px; }
+
+.icon-flash {
+  background-position: -243px -137px;
+  width: 16px;
+  height: 15px; }
 
 html {
   font-family: sans-serif;
@@ -504,7 +509,7 @@ html {
     height: 40px;
     width: 400px; }
 
-@keyframes move {
+@keyframes filter-move {
   from {
     margin-bottom: -15px;
     opacity: 0; }
@@ -541,4 +546,29 @@ html {
     position: absolute; }
     .filter__ico span {
       margin-right: 15px;
-      animation: move  1.5s infinite ease-in-out; }
+      animation: filter-move  1.5s infinite ease-in-out; }
+
+@keyframes energy-move {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+.energy .icon-flash {
+  position: absolute;
+  animation: energy-move  1s infinite ease-in-out; }
+  .energy .icon-flash:first-of-type {
+    left: 25px;
+    top: 25px; }
+  .energy .icon-flash:nth-of-type(2) {
+    right: 25px;
+    top: 25px;
+    transform: scale(-1, 1); }
+  .energy .icon-flash:nth-of-type(3) {
+    left: 25px;
+    top: 58px;
+    transform: scale(-1, -1) rotate(120deg); }
+  .energy .icon-flash:nth-of-type(4) {
+    right: 25px;
+    top: 58px;
+    transform: scale(-1, 1) rotate(120deg); }
