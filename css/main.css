@@ -68,18 +68,23 @@
   width: 15px;
   height: 21px; }
 
+.icon-couples {
+  background-position: -198px -45px;
+  width: 13px;
+  height: 17px; }
+
 .icon-recicle-flow {
   background-position: -176px -45px;
   width: 17px;
   height: 20px; }
 
 .icon-burn-flow {
-  background-position: -197px -70px;
+  background-position: -104px -92px;
   width: 10px;
   height: 10px; }
 
 .icon-filter-tube {
-  background-position: -198px -45px;
+  background-position: -197px -70px;
   width: 11px;
   height: 10px; }
 
@@ -277,6 +282,8 @@ html {
     border-color: #45ca71; }
   .stage_filter {
     text-align: center; }
+  .stage_filter .stage__label {
+    text-align: left; }
   .stage_filter .icon-filter {
     margin-bottom: 7px; }
   .stage_large {
@@ -486,21 +493,24 @@ html {
         height: 54px;
         width: 1px; }
   .stage_turbo .stage__tube {
-    right: 100%;
     top: 0;
     bottom: 0;
     margin: auto 0;
     height: 30px;
-    width: 230px;
+    width: 320px;
     border: 1px solid transparent;
     border-top-color: #2898da;
     border-bottom-color: #2898da;
-    overflow: hidden; }
-    .stage_turbo .stage__tube:last-of-type {
-      border-width: 2px;
-      border-top-color: #ffd441;
-      border-bottom-color: #ffd441;
-      height: 48px; }
+    overflow: hidden;
+    right: 0;
+    left: auto; }
+  .stage_turbo .stage__tube:last-of-type {
+    border-width: 2px;
+    border-top-color: #ffd441;
+    border-bottom-color: #ffd441;
+    height: 48px;
+    left: 0;
+    right: auto; }
   .stage__tube_filter {
     top: 0;
     bottom: 25px;
@@ -556,7 +566,6 @@ html {
   .filter__caption {
     position: absolute;
     font-size: 13px;
-    font-weight: bold;
     color: #01c6ff;
     top: -42px;
     left: 0;
@@ -637,6 +646,10 @@ html {
   100% {
     transform: translateX(0); } }
 
+@keyframes turbo-move {
+  100% {
+    transform: translateX(0); } }
+
 .recicle__flow span {
   position: absolute;
   left: 0;
@@ -674,11 +687,11 @@ html {
   .recicle__flow span:nth-of-type(6) {
     margin-left: 190px; }
 
-.burn__flow {
+.burn .stage__tube_slag .burn__flow {
   position: relative;
   z-index: 99;
   margin-left: 150px; }
-  .burn__flow span {
+  .burn .stage__tube_slag .burn__flow span {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -687,7 +700,7 @@ html {
     transform: translateX(-90px);
     animation: recicle-move  1s linear infinite;
     z-index: 4; }
-    .burn__flow span:before {
+    .burn .stage__tube_slag .burn__flow span:before {
       content: '';
       position: absolute;
       width: 11px;
@@ -698,55 +711,123 @@ html {
       border-right: 1px solid #78959b;
       border-top: 1px solid #78959b;
       transform: rotate(58deg) skewX(30deg); }
-    .burn__flow span:nth-of-type(1) {
+    .burn .stage__tube_slag .burn__flow span:nth-of-type(1) {
       margin-left: 0; }
-    .burn__flow span:nth-of-type(2) {
+    .burn .stage__tube_slag .burn__flow span:nth-of-type(2) {
       margin-left: 90px; }
-    .burn__flow span:nth-of-type(3) {
+    .burn .stage__tube_slag .burn__flow span:nth-of-type(3) {
       margin-left: 180px; }
-    .burn__flow span:nth-of-type(4) {
+    .burn .stage__tube_slag .burn__flow span:nth-of-type(4) {
       margin-left: 270px; }
-    .burn__flow span:nth-of-type(5) {
+    .burn .stage__tube_slag .burn__flow span:nth-of-type(5) {
       margin-left: 360px; }
 
-.turbo__flow {
-  margin-left: 105px;
-  margin-top: 25px;
+.burn .stage__tube_couples .burn__flow {
+  position: absolute;
+  z-index: 10; }
+  .burn .stage__tube_couples .burn__flow span {
+    position: absolute;
+    transition: transform .5s; }
+
+.turbo .stage__tube .turbo__flow {
+  margin-left: -125px;
   position: relative;
-  z-index: 99; }
-  .turbo__flow span {
+  z-index: 99;
+  height: 100%; }
+  .turbo .stage__tube .turbo__flow span {
     position: absolute;
     left: 0;
     bottom: 0;
     top: 0;
     margin: auto 0;
-    transform: translateX(-120px);
-    animation: recicle-move  1.5s linear infinite; }
-    .turbo__flow span:before {
+    transform: translateX(140px);
+    animation: turbo-move  1.8s linear infinite; }
+    .turbo .stage__tube .turbo__flow span:before {
       content: '';
       position: absolute;
+      width: 16px;
+      height: 16px;
+      right: -30px;
+      top: -1px;
+      bottom: 0; }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(1) {
+      margin-left: 20px; }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(2) {
+      margin-left: 40px; }
+      .turbo .stage__tube .turbo__flow span:nth-of-type(2):before {
+        border-right: 1px solid #2898da;
+        border-top: 1px solid #2898da;
+        transform: rotate(238deg) skewX(30deg); }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(3) {
+      margin-left: 90px; }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(4) {
+      margin-left: 110px; }
+      .turbo .stage__tube .turbo__flow span:nth-of-type(4):before {
+        border-right: 1px solid #2898da;
+        border-top: 1px solid #2898da;
+        transform: rotate(238deg) skewX(30deg); }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(5) {
+      margin-left: 160px; }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(6) {
+      margin-left: 180px; }
+      .turbo .stage__tube .turbo__flow span:nth-of-type(6):before {
+        border-right: 1px solid #2898da;
+        border-top: 1px solid #2898da;
+        transform: rotate(238deg) skewX(30deg); }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(7) {
+      margin-left: 230px; }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(8) {
+      margin-left: 250px; }
+      .turbo .stage__tube .turbo__flow span:nth-of-type(8):before {
+        border-right: 1px solid #2898da;
+        border-top: 1px solid #2898da;
+        transform: rotate(238deg) skewX(30deg); }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(9) {
+      margin-left: 300px; }
+    .turbo .stage__tube .turbo__flow span:nth-of-type(10) {
+      margin-left: 320px; }
+      .turbo .stage__tube .turbo__flow span:nth-of-type(10):before {
+        border-right: 1px solid #2898da;
+        border-top: 1px solid #2898da;
+        transform: rotate(238deg) skewX(30deg); }
+
+.stage__tube:last-of-type .turbo__flow {
+  margin-left: 105px;
+  position: relative;
+  z-index: 99; }
+  .stage__tube:last-of-type .turbo__flow span {
+    transform: translateX(-120px);
+    animation: recicle-move  1.5s linear infinite; }
+    .stage__tube:last-of-type .turbo__flow span:before {
       width: 25px;
       height: 25px;
       right: -25px;
-      top: -3px;
-      bottom: 0; }
-    .turbo__flow span:nth-of-type(1) {
+      top: -3px; }
+    .stage__tube:last-of-type .turbo__flow span:nth-of-type(1) {
       margin-left: 0; }
-    .turbo__flow span:nth-of-type(2) {
+      .stage__tube:last-of-type .turbo__flow span:nth-of-type(1):before {
+        border: none; }
+    .stage__tube:last-of-type .turbo__flow span:nth-of-type(2) {
       margin-left: 30px; }
-    .turbo__flow span:nth-of-type(3) {
+      .stage__tube:last-of-type .turbo__flow span:nth-of-type(2):before {
+        border: none; }
+    .stage__tube:last-of-type .turbo__flow span:nth-of-type(3) {
       margin-left: 60px; }
-      .turbo__flow span:nth-of-type(3):before {
+      .stage__tube:last-of-type .turbo__flow span:nth-of-type(3):before {
         border-right: 1px solid #ffd441;
         border-top: 1px solid #ffd441;
         transform: rotate(58deg) skewX(30deg); }
-    .turbo__flow span:nth-of-type(4) {
+    .stage__tube:last-of-type .turbo__flow span:nth-of-type(4) {
       margin-left: 120px; }
-    .turbo__flow span:nth-of-type(5) {
+      .stage__tube:last-of-type .turbo__flow span:nth-of-type(4):before {
+        border: none; }
+    .stage__tube:last-of-type .turbo__flow span:nth-of-type(5) {
       margin-left: 150px; }
-    .turbo__flow span:nth-of-type(6) {
+      .stage__tube:last-of-type .turbo__flow span:nth-of-type(5):before {
+        border: none; }
+    .stage__tube:last-of-type .turbo__flow span:nth-of-type(6) {
       margin-left: 180px; }
-      .turbo__flow span:nth-of-type(6):before {
+      .stage__tube:last-of-type .turbo__flow span:nth-of-type(6):before {
         border-right: 1px solid #ffd441;
         border-top: 1px solid #ffd441;
         transform: rotate(58deg) skewX(30deg); }
