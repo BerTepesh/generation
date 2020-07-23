@@ -1,13 +1,3 @@
-
-/*var couples = document.querySelectorAll("#burn-couples span");
-
-var button = document.querySelector("#move");
-button.addEventListener("click", animateCouples, false);
-
-e.style.transform = `rotate(90deg)`;
-e.style.left = xPos + 'px';
-e.style.top = yPos - (index * gutter) + 'px';*/
-
 class Engine {
   states = [];
   constructor() {
@@ -43,7 +33,6 @@ class State {
     this.flows.forEach(function(e, index) {
       e.id = that.id + '_' + index;
       e.parrentState = document.getElementById(that.id);
-      //e.parrentState.innerHTML += '<div class="flows__item" id="' +  e.id + '"></div>';
       e.init();
     });
     console.log("   state.init() done");
@@ -87,8 +76,29 @@ class Flow {
     console.log("         sprites.init()..");
     this.parrentState.innerHTML += '<div class="flows__item" id="' +  this.id + '"></div>';
     let flowItem = document.getElementById(this.id);
-    this.sprites.forEach(function(e) {
-      e.el = flowItem.innerHTML += '<span class="' +  e.icon + '"></span>';
+    this.sprites.forEach(function(e, index) {
+      flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  that.id + '_' + index + '"></span>';
+      e.el = document.getElementById(that.id + '_' + index);
+      switch(that.direction) {
+        case 'left': 
+          e.x = -50;
+          e.el.style.transform = "translate(" + e.x + "px, 0)";
+          break;
+        case 'right': 
+          e.x = 50;
+          e.el.style.transform = "translate(" + e.x + "px, 0)";
+          break;
+        case 'up': 
+          e.y = -50;
+          e.el.style.transform = "translate(0, " + e.y + "px)";
+          break;
+        case 'down': 
+          e.y = 50;
+          e.el.style.transform = "translate(0, " + e.y + "px)";
+          break;
+        default:
+          
+      }
     });
     console.log("         sprites.init() done");
     console.log("     flow.init() done");
@@ -110,6 +120,7 @@ class Sprite {
     this.gutter = _gutter;
     this.split = _split;
   }
+
 }
 
 let reciclePath = [
