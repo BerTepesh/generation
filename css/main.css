@@ -270,7 +270,7 @@ html {
       border-top-color: #93b6c8; }
   .stage_bunker {
     margin-top: 7px;
-    margin-left: 60px; }
+    margin-left: 70px; }
   .stage_recicle .stage__holder {
     min-width: 80px;
     padding: 15px 10px;
@@ -580,42 +580,6 @@ html {
     .filter__ico span {
       margin-right: 15px;
       animation: filter-move  1.5s infinite ease-in-out; }
-  .filter__flow {
-    margin-left: 75px;
-    margin-top: 10px;
-    position: relative;
-    z-index: 99; }
-    .filter__flow span {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      top: 0;
-      margin: auto 0;
-      transform: translateX(-70px);
-      animation: recicle-move  1s linear infinite; }
-      .filter__flow span:before {
-        content: '';
-        position: absolute;
-        width: 11px;
-        height: 11px;
-        right: -35px;
-        top: -1px;
-        bottom: 0;
-        border-right: 1px solid #3e585e;
-        border-top: 1px solid #3e585e;
-        transform: rotate(58deg) skewX(30deg); }
-      .filter__flow span:nth-of-type(1) {
-        margin-left: 0; }
-      .filter__flow span:nth-of-type(2) {
-        margin-left: 70px; }
-      .filter__flow span:nth-of-type(3) {
-        margin-left: 140px; }
-      .filter__flow span:nth-of-type(4) {
-        margin-left: 210px; }
-      .filter__flow span:nth-of-type(5) {
-        margin-left: 280px; }
-      .filter__flow span:nth-of-type(6) {
-        margin-left: 350px; }
 
 @keyframes energy-move {
   from {
@@ -642,192 +606,9 @@ html {
     top: 58px;
     transform: scale(-1, 1) rotate(120deg); }
 
-@keyframes recicle-move {
-  100% {
-    transform: translateX(0); } }
-
-@keyframes turbo-move {
-  100% {
-    transform: translateX(0); } }
-
-.recicle__flow span {
+.flows {
   position: absolute;
   left: 0;
-  bottom: 0;
+  right: 0;
   top: 0;
-  margin: auto 0;
-  transform: translateX(-80px);
-  animation: recicle-move  1s linear infinite; }
-  .recicle__flow span:before {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    right: -20px;
-    top: 2px;
-    bottom: 0; }
-  .recicle__flow span:nth-of-type(1) {
-    margin-left: 0; }
-  .recicle__flow span:nth-of-type(2) {
-    margin-left: 30px; }
-    .recicle__flow span:nth-of-type(2):before {
-      border-right: 1px solid #8cc4e5;
-      border-top: 1px solid #8cc4e5;
-      transform: rotate(58deg) skewX(30deg); }
-  .recicle__flow span:nth-of-type(3) {
-    margin-left: 80px; }
-  .recicle__flow span:nth-of-type(4) {
-    margin-left: 110px; }
-    .recicle__flow span:nth-of-type(4):before {
-      border-right: 1px solid #8cc4e5;
-      border-top: 1px solid #8cc4e5;
-      transform: rotate(58deg) skewX(30deg); }
-  .recicle__flow span:nth-of-type(5) {
-    margin-left: 160px; }
-  .recicle__flow span:nth-of-type(6) {
-    margin-left: 190px; }
-
-.burn .stage__tube_slag .burn__flow {
-  position: relative;
-  z-index: 99;
-  margin-left: 150px; }
-  .burn .stage__tube_slag .burn__flow span {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    top: 20px;
-    margin: auto 0;
-    transform: translateX(-90px);
-    animation: recicle-move  1s linear infinite;
-    z-index: 4; }
-    .burn .stage__tube_slag .burn__flow span:before {
-      content: '';
-      position: absolute;
-      width: 11px;
-      height: 11px;
-      right: -45px;
-      top: -1px;
-      bottom: 0;
-      border-right: 1px solid #78959b;
-      border-top: 1px solid #78959b;
-      transform: rotate(58deg) skewX(30deg); }
-    .burn .stage__tube_slag .burn__flow span:nth-of-type(1) {
-      margin-left: 0; }
-    .burn .stage__tube_slag .burn__flow span:nth-of-type(2) {
-      margin-left: 90px; }
-    .burn .stage__tube_slag .burn__flow span:nth-of-type(3) {
-      margin-left: 180px; }
-    .burn .stage__tube_slag .burn__flow span:nth-of-type(4) {
-      margin-left: 270px; }
-    .burn .stage__tube_slag .burn__flow span:nth-of-type(5) {
-      margin-left: 360px; }
-
-.burn .stage__tube_couples .burn__flow {
-  position: absolute;
-  z-index: 10; }
-  .burn .stage__tube_couples .burn__flow span {
-    position: absolute;
-    transition: transform .5s; }
-
-.turbo .stage__tube .turbo__flow {
-  margin-left: -125px;
-  position: relative;
-  z-index: 99;
-  height: 100%; }
-  .turbo .stage__tube .turbo__flow span {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    top: 0;
-    margin: auto 0;
-    transform: translateX(140px);
-    animation: turbo-move  1.8s linear infinite; }
-    .turbo .stage__tube .turbo__flow span:before {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      right: -30px;
-      top: -1px;
-      bottom: 0; }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(1) {
-      margin-left: 20px; }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(2) {
-      margin-left: 40px; }
-      .turbo .stage__tube .turbo__flow span:nth-of-type(2):before {
-        border-right: 1px solid #2898da;
-        border-top: 1px solid #2898da;
-        transform: rotate(238deg) skewX(30deg); }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(3) {
-      margin-left: 90px; }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(4) {
-      margin-left: 110px; }
-      .turbo .stage__tube .turbo__flow span:nth-of-type(4):before {
-        border-right: 1px solid #2898da;
-        border-top: 1px solid #2898da;
-        transform: rotate(238deg) skewX(30deg); }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(5) {
-      margin-left: 160px; }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(6) {
-      margin-left: 180px; }
-      .turbo .stage__tube .turbo__flow span:nth-of-type(6):before {
-        border-right: 1px solid #2898da;
-        border-top: 1px solid #2898da;
-        transform: rotate(238deg) skewX(30deg); }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(7) {
-      margin-left: 230px; }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(8) {
-      margin-left: 250px; }
-      .turbo .stage__tube .turbo__flow span:nth-of-type(8):before {
-        border-right: 1px solid #2898da;
-        border-top: 1px solid #2898da;
-        transform: rotate(238deg) skewX(30deg); }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(9) {
-      margin-left: 300px; }
-    .turbo .stage__tube .turbo__flow span:nth-of-type(10) {
-      margin-left: 320px; }
-      .turbo .stage__tube .turbo__flow span:nth-of-type(10):before {
-        border-right: 1px solid #2898da;
-        border-top: 1px solid #2898da;
-        transform: rotate(238deg) skewX(30deg); }
-
-.stage__tube:last-of-type .turbo__flow {
-  margin-left: 105px;
-  position: relative;
-  z-index: 99; }
-  .stage__tube:last-of-type .turbo__flow span {
-    transform: translateX(-120px);
-    animation: recicle-move  1.5s linear infinite; }
-    .stage__tube:last-of-type .turbo__flow span:before {
-      width: 25px;
-      height: 25px;
-      right: -25px;
-      top: -3px; }
-    .stage__tube:last-of-type .turbo__flow span:nth-of-type(1) {
-      margin-left: 0; }
-      .stage__tube:last-of-type .turbo__flow span:nth-of-type(1):before {
-        border: none; }
-    .stage__tube:last-of-type .turbo__flow span:nth-of-type(2) {
-      margin-left: 30px; }
-      .stage__tube:last-of-type .turbo__flow span:nth-of-type(2):before {
-        border: none; }
-    .stage__tube:last-of-type .turbo__flow span:nth-of-type(3) {
-      margin-left: 60px; }
-      .stage__tube:last-of-type .turbo__flow span:nth-of-type(3):before {
-        border-right: 1px solid #ffd441;
-        border-top: 1px solid #ffd441;
-        transform: rotate(58deg) skewX(30deg); }
-    .stage__tube:last-of-type .turbo__flow span:nth-of-type(4) {
-      margin-left: 120px; }
-      .stage__tube:last-of-type .turbo__flow span:nth-of-type(4):before {
-        border: none; }
-    .stage__tube:last-of-type .turbo__flow span:nth-of-type(5) {
-      margin-left: 150px; }
-      .stage__tube:last-of-type .turbo__flow span:nth-of-type(5):before {
-        border: none; }
-    .stage__tube:last-of-type .turbo__flow span:nth-of-type(6) {
-      margin-left: 180px; }
-      .stage__tube:last-of-type .turbo__flow span:nth-of-type(6):before {
-        border-right: 1px solid #ffd441;
-        border-top: 1px solid #ffd441;
-        transform: rotate(58deg) skewX(30deg); }
+  bottom: 0; }
