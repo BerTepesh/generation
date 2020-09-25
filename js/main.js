@@ -1,54 +1,75 @@
 class Engine {
   states = [];
+  interval = null;
   constructor() {
     
   }
   addState(_state) {
-    this.states.push(_state);
+    if(_state.id) {
+      this.states.push(_state);
+    }
   }
   init() {
     console.log("engine.init()..");
-    this.states.forEach(function(e){
+    this.states.forEach(e => {
       e.init();
     }); 
     console.log("engine.init() done");
   }
   render(_speed) {
-    
+    console.log("engine.render()..");
+    this.interval = setInterval(() => {
+      this.states.forEach(e => {
+        e.move();
+      }); 
+    }, 100/_speed);
+  }
+  stop() {
+    console.log("engine.stop()");
+    clearInterval(this.interval);
   }
 }
- 
 class State {
   flows = [];
   id;
   constructor(_id) {
-    this.id = _id;
+    if(document.getElementById(_id)) {
+      this.id = _id;
+    } else {
+      console.log("state.init() flow (" + _id + ") not found");
+    }
   }
   addFlow(_flow) {
-    this.flows.push(_flow);
+    if(_flow) {
+      this.flows.push(_flow);
+    }
   }
   init() {
     console.log("   state.init()..");
-    let that = this;
-    this.flows.forEach(function(e, index) {
-      e.id = that.id + '_' + index;
-      e.parrentState = document.getElementById(that.id);
+    this.flows.forEach((e, index) => {
+      e.id = this.id + '_' + index;
+      e.parrentState = document.getElementById(this.id);
       e.init();
     });
     console.log("   state.init() done");
   }
+  move() {
+    this.flows.forEach(e => {
+      e.move();
+    });
+  }
 }
-
 class Flow {
   id;
   sprites = [];
   path = [];
-  delay;
+  step;
   direction;
   parrentState;
-  constructor(_path, _delay) {
+
+  constructor(_path, _step) {
     this.path = _path;
-    this.delay = _delay;
+    this.step = _step;
 
     // Определение направления потока
     let first = { x: this.path[0].x, y: this.path[0].y };
@@ -68,61 +89,94 @@ class Flow {
 
   }
   addSprite(_sprite) {
-    this.sprites.push(_sprite);
+    if(_sprite) {
+      this.sprites.push(_sprite);
+    }
   }
   init() {
     console.log("     flow.init()..");
-    let that = this;
     console.log("         sprites.init()..");
     this.parrentState.innerHTML += '<div class="flows__item" id="' +  this.id + '"></div>';
     let flowItem = document.getElementById(this.id);
-    this.sprites.forEach(function(e, index) {
-      flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  that.id + '_' + index + '"></span>';
-      e.el = document.getElementById(that.id + '_' + index);
-      switch(that.direction) {
+    this.sprites.forEach((e, index) => {
+      flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  this.id + '_' + index + '"></span>';
+      e.id = this.id + '_' + index;
+      switch(this.direction) {
         case 'left': 
           e.x = -50;
-          e.el.style.transform = "translate(" + e.x + "px, 0)";
+          e.el().style.transform = "translate(" + e.x + "px, 0) scale(-1, 1)";
           break;
         case 'right': 
           e.x = 50;
-          e.el.style.transform = "translate(" + e.x + "px, 0)";
+          e.el().style.transform = "translate(" + e.x + "px, 0)";
           break;
         case 'up': 
           e.y = -50;
-          e.el.style.transform = "translate(0, " + e.y + "px)";
+          e.el().style.transform = "translate(0, " + e.y + "px) rotate(-90deg)";
           break;
         case 'down': 
           e.y = 50;
-          e.el.style.transform = "translate(0, " + e.y + "px)";
+          e.el().style.transform = "translate(0, " + e.y + "px) rotate(90deg)";
           break;
         default:
-          
+          e.x = 0;
+          e.y = 0;
+          e.el().style.transform = "translate(0, 0)";
       }
     });
     console.log("         sprites.init() done");
     console.log("     flow.init() done");
   }
   move() {
-    
+    this.sprites.forEach((e, index) => {
+      switch(this.direction) {
+        case 'right': 
+          let nextStep = e.pathStep + 1;
+          if(this.path[nextStep].x > e.x) {
+            e.x += this.step;
+            e.el().style.transform = "translate(" + e.x + "px, 0)";
+            console.log(this.path[nextStep].x +" -> "+ e.x);
+          } else if(this.path.length <= nextStep){ 
+            e.pathStep++;
+          }
+          break;
+        case 'left': 
+          e.x -= this.step;
+          e.el().style.transform = "translate(" + e.x + "px, 0) scale(-1, 1)";
+          break;
+        case 'down': 
+          e.y += this.step;
+          e.el().style.transform = "translate(0, " + e.y + "px) rotate(90deg)";
+          break;
+        case 'up': 
+          e.y -= this.step;
+          e.el().style.transform = "translate(0, " + e.y + "px) rotate(-90deg)";
+          break;
+        default:
+          e.x = 0;
+          e.y = 0;
+          e.el().style.transform = "translate(0, 0)";
+      }
+    });
   }
 }
-
 class Sprite {
-  el;
+  id;
   icon;
   gutter;
   split;
-  x;
-  y;
+  pathStep = 0;
+  x = 0;
+  y = 0;
   constructor(_icon, _gutter, _split) {
     this.icon = _icon;
     this.gutter = _gutter;
     this.split = _split;
   }
-
+  el() {
+    return document.getElementById(this.id);
+  }
 }
-
 let reciclePath = [
   {
     x: 0,
@@ -130,21 +184,24 @@ let reciclePath = [
   },{
     x: 150,
     y: 0
+  },{
+    x: 150,
+    y: 150
   }
 ];
-let filterPath = [
+let bunkerPath = [
   {
     x: 0,
     y: 0
   },{
-    x: -150,
-    y: 0
+    x: 0,
+    y: 100
   }
 ];
 
 // Создание потока
-let recicleFlow = new Flow(reciclePath, 5);
-let filterFlow = new Flow(filterPath, 5);
+let recicleFlow = new Flow(reciclePath, 2);
+let bunkerFlow = new Flow(bunkerPath, 2);
 
 // Наполнение потока спрайтами
 for(let i = 0; i <= 7; i++) {
@@ -156,24 +213,30 @@ for(let i = 0; i <= 7; i++) {
 }
 for(let i = 0; i <= 5; i++) {
   if(i % 4) {
-    filterFlow.addSprite(new Sprite('icon-recicle-flow', 20, false));
+    bunkerFlow.addSprite(new Sprite('icon-recicle-flow', 20, false));
   } else {
-    filterFlow.addSprite(new Sprite('icon-recicle-flow', 20, true));
+    bunkerFlow.addSprite(new Sprite('icon-recicle-flow', 20, true));
   }
 }
 
 // Создание позиции
 let recicleState = new State('recicle');
+let bunkerState = new State('bunker');
 
 // Добавление потока в позицию
 recicleState.addFlow(recicleFlow);
-recicleState.addFlow(filterFlow);
+bunkerState.addFlow(bunkerFlow);
 
 // Создание движка
 const engine = new Engine();
 
 // Доавление позиции в движок
 engine.addState(recicleState);
+engine.addState(bunkerState);
 
+// Инициализация движка
 engine.init();
+
+// Рендер (скорость 0 - 10)
+//engine.render(3);
 

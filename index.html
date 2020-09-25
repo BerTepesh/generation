@@ -15,6 +15,9 @@
 <body>
   <div class="wrap">
     <main role="main" class="content">
+      <input type="button" onclick="engine.render(3);" value="start">
+      <input type="button" onclick="recicleFlow.move();" value="move">
+      <input type="button" onclick="engine.stop();" value="stop">
       <div class="main-layout">
         <h1 class="main-layout__title">Генерация электроэнергии <br> из отходов</h1>
       </div>
@@ -37,6 +40,9 @@
               <div class="stage__name">ПРИЁМНЫЙ <br>БУНКЕР</div>
               <div class="stage__coming stage__coming_right">ОТХОДЫ</div>
               <div class="stage__tube"></div>
+              <!-- <div class="flows" id="bunker">
+                
+              </div> -->
             </div>
             <div class="stage__label">Отходы грейферным краном загружаются в установки для сжигания</div>
           </div>
