@@ -54,12 +54,12 @@
   height: 63px; }
 
 .icon-co2 {
-  background-position: -140px -107px;
+  background-position: -202px -45px;
   width: 4px;
   height: 14px; }
 
 .icon-flash {
-  background-position: -176px -70px;
+  background-position: -176px -69px;
   width: 16px;
   height: 15px; }
 
@@ -69,12 +69,12 @@
   height: 21px; }
 
 .icon-couples {
-  background-position: -198px -45px;
+  background-position: -162px -107px;
   width: 13px;
   height: 17px; }
 
 .icon-recicle-flow {
-  background-position: -176px -45px;
+  background-position: -140px -107px;
   width: 17px;
   height: 20px; }
 
@@ -84,9 +84,14 @@
   height: 10px; }
 
 .icon-filter-tube {
-  background-position: -197px -70px;
+  background-position: -197px -69px;
   width: 11px;
   height: 10px; }
+
+.icon-smoke {
+  background-position: -176px -45px;
+  width: 21px;
+  height: 19px; }
 
 html {
   font-family: sans-serif;
@@ -305,7 +310,7 @@ html {
     margin-bottom: 15px; }
   .stage_ash {
     margin-top: -30px;
-    margin-left: 100px; }
+    margin-left: 90px; }
   .stage_burn {
     margin-left: 380px;
     margin-top: 34px; }
@@ -619,4 +624,5 @@ html {
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: -1; }
+    z-index: -1;
+    transition: .3s; }
