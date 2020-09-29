@@ -143,53 +143,52 @@ class Flow {
         if(!this.getNextPathStep(el)) {
           this.isMove = false;
         } else {
-          console.log(el.direction)
           if(el.direction == 0) {
             if(this.getNextPathStep(el).x >= el.x) {
               this.transform(el);
             } else {
+              el.pathStep++;
               if(this.getNextPathStep(el).y >= el.y) {
                 el.direction = 1;
               } else {
                 el.direction = 3;
               }
-              el.pathStep++;
             }
             el.x += this.step;
           } else if(el.direction == 1) {
             if(this.getNextPathStep(el).y >= el.y) {
               this.transform(el, 90);
             } else {
+              el.pathStep++;
               if(this.getNextPathStep(el).x >= el.x) {
                 el.direction = 0;
               } else {
                 el.direction = 2;
               }
-              el.pathStep++;
             }
             el.y += this.step;
           } else if(el.direction == 2) {
             if(this.getNextPathStep(el).x <= el.x) {
               this.transform(el, 180);
             } else {
+              el.pathStep++;
               if(this.getNextPathStep(el).y <= el.y) {
                 el.direction = 3;
               } else {
                 el.direction = 1;
               }
-              el.pathStep++;
             }
             el.x -= this.step;
           } else if(el.direction == 3) {
             if(this.getNextPathStep(el).y <= el.y) {
               this.transform(el, 270);
             } else {
+              el.pathStep++;
               if(this.getNextPathStep(el).x <= el.x) {
                 el.direction = 2;
               } else {
                 el.direction = 0;
               }
-              el.pathStep++;
             }
             el.y -= this.step;
           }
@@ -218,7 +217,7 @@ class Sprite {
     return document.getElementById(this.id);
   }
 }
-let reciclePath = [
+let reciclePath1 = [
   {
     x: 0,
     y: 0
@@ -231,6 +230,24 @@ let reciclePath = [
   },{
     x: 0,
     y: 150
+  },{
+    x: 0,
+    y: 0
+  }
+];
+let reciclePath12 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: 0,
+    y: 150
+  },{
+    x: 150,
+    y: 150
+  },{
+    x: 150,
+    y: 0
   },{
     x: 0,
     y: 0
@@ -244,17 +261,53 @@ let reciclePath2 = [
     x: 0,
     y: 150
   },{
-    x: 150,
+    x: -150,
     y: 150
   },{
-    x: 150,
+    x: -150,
     y: 0
   },{
     x: 0,
     y: 0
   }
 ];
+let reciclePath22 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: -150,
+    y: 0
+  },{
+    x: -150,
+    y: 150
+  },{
+    x: 0,
+    y: 150
+  },{
+    x: 0,
+    y: 0
+  }
+];
 let reciclePath3 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: -150,
+    y: 0
+  },{
+    x: -150,
+    y: -150
+  },{
+    x: 0,
+    y: -150
+  },{
+    x: 0,
+    y: 0
+  }
+];
+let reciclePath32 = [
   {
     x: 0,
     y: 0
@@ -278,36 +331,81 @@ let reciclePath4 = [
     y: 0
   },{
     x: 0,
-    y: 150
+    y: -150
   },{
-    x: -150,
-    y: 150
+    x: 150,
+    y: -150
   },{
-    x: -150,
+    x: 150,
     y: 0
   },{
     x: 0,
     y: 0
   }
 ];
+let reciclePath42 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: 150,
+    y: 0
+  },{
+    x: 150,
+    y: -150
+  },{
+    x: 0,
+    y: -150
+  },{
+    x: 0,
+    y: 0
+  }
+];
+
 
 // Создание потока
-let recicleFlow = new Flow(reciclePath4, 2);
+let recicleFlow1 = new Flow(reciclePath1, 2);
+let recicleFlow12 = new Flow(reciclePath12, 2);
+
+let recicleFlow2 = new Flow(reciclePath2, 2);
+let recicleFlow22 = new Flow(reciclePath22, 2);
+
+let recicleFlow3 = new Flow(reciclePath3, 2);
+let recicleFlow32 = new Flow(reciclePath32, 2);
+
+let recicleFlow4 = new Flow(reciclePath4, 2);
+let recicleFlow42 = new Flow(reciclePath42, 2);
 
 // Наполнение потока спрайтами
 for(let i = 0; i < 2; i++) {
-  if(i % 3) {
-    recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
-  } else {
-    recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
-  }
+  // if(i % 3) {
+  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
+  // } else {
+  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
+  // }
+
+  recicleFlow1.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow12.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow2.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow22.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow3.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow32.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow4.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow42.addSprite(new Sprite('icon-smoke', 20, false));
 }
 
 // Создание позиции
 let recicleState = new State('recicle');
 
 // Добавление потока в позицию
-recicleState.addFlow(recicleFlow);
+recicleState.addFlow(recicleFlow1);
+recicleState.addFlow(recicleFlow12);
+recicleState.addFlow(recicleFlow2);
+recicleState.addFlow(recicleFlow22);
+recicleState.addFlow(recicleFlow3);
+recicleState.addFlow(recicleFlow32);
+recicleState.addFlow(recicleFlow4);
+recicleState.addFlow(recicleFlow42);
 
 // Создание движка
 const engine = new Engine();
