@@ -63,31 +63,13 @@ class Flow {
   id;
   sprites = [];
   path = [];
-  step;
-  //direction;
   parrentState;
   isMove = true;
+  step;
 
   constructor(_path, _step) {
     this.path = _path;
     this.step = _step;
-
-    // Определение направления потока
-    // let first = { x: this.path[0].x, y: this.path[0].y };
-    // let second = { x: this.path[1].x, y: this.path[1].y };
-    
-    // if(second.x != 0 && second.y != 0) {
-    //   alert('Задан некорректный путь!');
-    // } else if(first.x > second.x) {
-    //   this.direction = 'left';
-    // } else if(first.x < second.x) {
-    //   this.direction = 'right';
-    // } else if(first.y > second.y) {
-    //   this.direction = 'up';
-    // } else if(first.y < second.y) {
-    //   this.direction = 'down';
-    // } 
-
   }
   addSprite(_sprite) {
     if(_sprite) {
@@ -100,158 +82,117 @@ class Flow {
     this.parrentState.innerHTML += '<div class="flows__item" id="' +  this.id + '"></div>';
     let flowItem = document.getElementById(this.id);
 
-    let first = { x: this.path[0].x, y: this.path[0].y };
-    let second = { x: this.path[1].x, y: this.path[1].y };
+    if(this.path.length < 2) {
+      alert('Задан слишком короткий путь!');
+    } else {
+      let first = { x: this.path[0].x, y: this.path[0].y };
+      let second = { x: this.path[1].x, y: this.path[1].y };
 
-    this.sprites.forEach((e, index) => {
-      flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  this.id + '_' + index + '"></span>';
-      e.id = this.id + '_' + index;
+      this.sprites.forEach((e, index) => {
+        flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  this.id + '_' + index + '"></span>';
+        e.id = this.id + '_' + index;
 
-      if(second.x != 0 && second.y != 0) {
-        alert('Задан некорректный путь!');
-      } else if(first.x > second.x) {
-        e.x = -50;
-        e.direction = 2; 
-        e.el().style.transform = "translate(" + e.x + "px, 0)"; //scale(-1, 1)
-      } else if(first.x < second.x) {
-        e.x = 50;
-        e.direction = 0; 
-        e.el().style.transform = "translate(" + e.x + "px, 0)";
-      } else if(first.y > second.y) {
-        e.y = -50;
-        e.direction = 3; 
-        e.el().style.transform = "translate(0, " + e.y + "px) rotate(-90deg)";
-      } else if(first.y < second.y) {
-        e.y = 50;
-        e.direction = 1; 
-        e.el().style.transform = "translate(0, " + e.y + "px) rotate(90deg)";
-      } 
-
-      // switch(this.direction) {
-      //   case 'left': 
-      //     e.x = -50;
-      //     e.direction = 2; 
-      //     e.el().style.transform = "translate(" + e.x + "px, 0)"; //scale(-1, 1)
-      //     break;
-      //   case 'right': 
-      //     e.x = 50;
-      //     e.direction = 0; 
-      //     e.el().style.transform = "translate(" + e.x + "px, 0)";
-      //     break;
-      //   case 'up': 
-      //     e.y = -50;
-      //     e.direction = 3; 
-      //     e.el().style.transform = "translate(0, " + e.y + "px) rotate(-90deg)";
-      //     break;
-      //   case 'down': 
-      //     e.y = 50;
-      //     e.direction = 1; 
-      //     e.el().style.transform = "translate(0, " + e.y + "px) rotate(90deg)";
-      //     break;
-      //   default:
-      //     e.x = 0;
-      //     e.y = 0;
-      //     e.direction = 0; 
-      //     e.el().style.transform = "translate(0, 0)";
-      // }
-    });
+        if(second.x != 0 && second.y != 0) {
+          alert('Задан некорректный путь!');
+        } else if(first.x > second.x) {
+          e.x = -50;
+          e.direction = 2; 
+          e.el().style.transform = "translate(" + e.x + "px, 0)"; //scale(-1, 1)
+        } else if(first.x < second.x) {
+          e.x = 50;
+          e.direction = 0; 
+          e.el().style.transform = "translate(" + e.x + "px, 0)";
+        } else if(first.y > second.y) {
+          e.y = -50;
+          e.direction = 3; 
+          e.el().style.transform = "translate(0, " + e.y + "px) rotate(-90deg)";
+        } else if(first.y < second.y) {
+          e.y = 50;
+          e.direction = 1; 
+          e.el().style.transform = "translate(0, " + e.y + "px) rotate(90deg)";
+        } 
+      });
+    }
     console.log("         sprites.init() done");
     console.log("     flow.init() done");
   }
-  getPrevPos(_e) {
-    let prevStep = _e.pathStep - 1;
-    if(prevStep > 0) {
-      if(this.path[prevStep].x < _e.x) {
-        return 'right';
-      } else if(this.path[prevStep].y > _e.y) {
-        return 'down';
-      } else if(this.path[prevStep].x < _e.x) {
-        return 'left';
-      } else if(this.path[prevStep].y < _e.y) {
-        return 'up';
-      } else {
-        console.log("start");
-        return false;
-      }
-    } else {
+
+  getPrevPathStep(_el) {
+    let prevSpriteStep = _el.pathStep - 1;
+    if(prevSpriteStep < 0) {
+      return false;
+    } 
+    return this.path[prevSpriteStep];
+  }
+
+  getNextPathStep(_el) {
+    let nextSpriteStep = _el.pathStep + 1;
+    if(nextSpriteStep >= (this.path.length)) {
       return false;
     }
+    return this.path[nextSpriteStep];    
   }
-  getNextPos(_e) {
-    let nextStep = _e.pathStep + 1;
-    if(this.path.length > nextStep) {
-      if(this.path[nextStep].x > _e.x) {
-        return 'right';
-      } else if(this.path[nextStep].y > _e.y) {
-        return 'down';
-      } else if(this.path[nextStep].x < _e.x) {
-        return 'left';
-      } else if(this.path[nextStep].y > _e.y) {
-        return 'up';
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+
+  transform(_el, _rotate = 0) {
+    _el.el().style.transform = "translate(" + _el.x + "px, " + _el.y + "px) rotate(" + _rotate + "deg)";
   }
+ 
   move() {
     if(this.isMove) {
-      this.sprites.forEach(e => {
-        if(this.getNextPos(e) != false && this.getPrevPos(e) != false) {
-          if(this.getNextPos(e) == 'right') {
-            if(this.getPrevPos(e) == 'down') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(270deg)";
-            } else if(this.getPrevPos(e) == 'up') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(360deg)";
-            } else {
-              console.log("start -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, 0)";
-            }
-            e.x += this.step;
-          } else if(this.getNextPos(e) == 'down'){ 
-            if(this.getPrevPos(e) == 'right') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(-270deg)";
-            } else if(this.getPrevPos(e) == 'left') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(90deg)";
-            } else {
-              console.log("start -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, 0) rotate(90deg)";
-            }
-            e.y += this.step;
-          } else if(this.getNextPos(e) == 'left'){ 
-            if(this.getPrevPos(e) == 'up') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(-90deg)";
-            } else if(this.getPrevPos(e) == 'down') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(180deg)";
-            } else {
-              console.log("start -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, 0) rotate(180deg)";
-            }
-            e.x -= this.step;
-          } else if(this.getNextPos(e) == 'up'){ 
-            if(this.getPrevPos(e) == 'left') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(270deg)";
-            } else if(this.getPrevPos(e) == 'right') {
-              console.log(this.getPrevPos(e) + " -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, " + e.y + "px) rotate(-90deg)";
-            } else {
-              console.log("start -> " + this.getNextPos(e));
-              e.el().style.transform = "translate(" + e.x + "px, 0) rotate(270deg)";
-            }
-            e.y -= this.step;
-          } 
-        } else if(this.getNextPos(e)) {
-          e.pathStep++;
-        } else if(!this.getNextPos(this.sprites[this.sprites.length - 1])) {
+      this.sprites.forEach(el => {
+        if(!this.getNextPathStep(el)) {
           this.isMove = false;
+        } else {
+          console.log(el.direction)
+          if(el.direction == 0) {
+            if(this.getNextPathStep(el).x >= el.x) {
+              this.transform(el);
+            } else {
+              if(this.getNextPathStep(el).y >= el.y) {
+                el.direction = 1;
+              } else {
+                el.direction = 3;
+              }
+              el.pathStep++;
+            }
+            el.x += this.step;
+          } else if(el.direction == 1) {
+            if(this.getNextPathStep(el).y >= el.y) {
+              this.transform(el, 90);
+            } else {
+              if(this.getNextPathStep(el).x >= el.x) {
+                el.direction = 0;
+              } else {
+                el.direction = 2;
+              }
+              el.pathStep++;
+            }
+            el.y += this.step;
+          } else if(el.direction == 2) {
+            if(this.getNextPathStep(el).x <= el.x) {
+              this.transform(el, 180);
+            } else {
+              if(this.getNextPathStep(el).y <= el.y) {
+                el.direction = 3;
+              } else {
+                el.direction = 1;
+              }
+              el.pathStep++;
+            }
+            el.x -= this.step;
+          } else if(el.direction == 3) {
+            if(this.getNextPathStep(el).y <= el.y) {
+              this.transform(el, 270);
+            } else {
+              if(this.getNextPathStep(el).x <= el.x) {
+                el.direction = 2;
+              } else {
+                el.direction = 0;
+              }
+              el.pathStep++;
+            }
+            el.y -= this.step;
+          }
         }
       });
     } else {
@@ -313,9 +254,45 @@ let reciclePath2 = [
     y: 0
   }
 ];
+let reciclePath3 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: 0,
+    y: -150
+  },{
+    x: -150,
+    y: -150
+  },{
+    x: -150,
+    y: 0
+  },{
+    x: 0,
+    y: 0
+  }
+];
+let reciclePath4 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: 0,
+    y: 150
+  },{
+    x: -150,
+    y: 150
+  },{
+    x: -150,
+    y: 0
+  },{
+    x: 0,
+    y: 0
+  }
+];
 
 // Создание потока
-let recicleFlow = new Flow(reciclePath, 2);
+let recicleFlow = new Flow(reciclePath4, 2);
 
 // Наполнение потока спрайтами
 for(let i = 0; i < 2; i++) {
