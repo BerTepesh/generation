@@ -294,10 +294,10 @@ const gasPath = [
     y: 0
   },{
     x: 21,
-    y: -205
+    y: -209
   },{
     x: 160,
-    y: -205
+    y: -209
   }
 ];
 const condensatePath = [

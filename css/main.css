@@ -286,6 +286,8 @@ html {
     padding: 15px 10px;
     margin-bottom: 15px;
     border-color: #505050; }
+  .stage_recicle {
+    top: 10px; }
   .stage_inner .stage__label {
     font-style: italic; }
   .stage_inner .stage__holder {
@@ -375,7 +377,7 @@ html {
       border-top-color: #8cc4e5;
       border-right-color: #8cc4e5; }
   .stage_burn .stage__tube_gaz {
-    bottom: 85px;
+    bottom: 75px;
     right: -80px;
     height: 190px;
     width: 124px;
@@ -560,6 +562,9 @@ html {
   to {
     margin-top: 0;
     opacity: 1; } }
+
+.recicle {
+  padding-top: 5px; }
 
 .filter {
   margin-left: 150px;
