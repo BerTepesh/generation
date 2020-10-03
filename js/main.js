@@ -171,7 +171,7 @@ class Flow {
         } else {
           if(el.curDirection == 0) {
             if(this.getNextPathStep(el).x >= el.x) {
-              if(el.x >= 0) {           // Чтоб начинать от state
+              if(el.x >= 0) {  
                 this.#transform(el);    
               }    
             } else {
@@ -185,7 +185,7 @@ class Flow {
             el.x++;
           } else if(el.curDirection == 1) {
             if(this.getNextPathStep(el).y >= el.y) {
-              if(el.y >= 0) {           // Чтоб начинать от state
+              if(el.y >= 0) {
                 this.#transform(el, 90);  
               } 
             } else {
@@ -199,7 +199,7 @@ class Flow {
             el.y++;
           } else if(el.curDirection == 2) {
             if(this.getNextPathStep(el).x <= el.x) {
-              if(el.x < 0) {           // Чтоб начинать от state
+              if(el.x < 0) {
                 this.#transform(el, 180);  
               }  
             } else {
@@ -213,7 +213,7 @@ class Flow {
             el.x--;
           } else if(el.curDirection == 3) {
             if(this.getNextPathStep(el).y <= el.y) {
-              if(el.y < 0) {           // Чтоб начинать от state
+              if(el.y < 0) {
                 this.#transform(el, 270);  
               } 
             } else {
@@ -355,7 +355,7 @@ const slagPath = [
 
 // Создание потока
 const recicleFlow = new Flow(reciclePath, 70); // скорость (0-100)
-const wasteFlow = new Flow(wastePath, 60);
+const wasteFlow = new Flow(wastePath, 40);
 const couplesFlow = new Flow(couplesPath, 50);
 const gasFlow = new Flow(gasPath, 40);
 const condensateFlow = new Flow(condensatePath, 30);
@@ -444,5 +444,5 @@ engine.addState(filterState);
 engine.init();
 
 // Рендер (скорость 0 - 100)
-engine.render(50);
+engine.render(30);
 
