@@ -93,6 +93,11 @@
   width: 21px;
   height: 19px; }
 
+.icon-condensate {
+  background-position: -180px -107px;
+  width: 16px;
+  height: 11px; }
+
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -274,7 +279,7 @@ html {
       border-width: 6px 21px 6px 21px;
       border-top-color: #93b6c8; }
   .stage_bunker {
-    margin-top: 7px;
+    margin-top: 10px;
     margin-left: 70px; }
   .stage_recicle .stage__holder {
     min-width: 80px;
@@ -344,7 +349,7 @@ html {
   .stage_recicle .stage__tube {
     left: 100%;
     top: 0;
-    bottom: 0;
+    bottom: 2px;
     margin: auto 0;
     height: 30px;
     width: 130px;
@@ -352,8 +357,8 @@ html {
     border-top-color: #8cc4e5;
     border-bottom-color: #8cc4e5; }
   .stage_bunker .stage__tube {
-    left: 100%;
-    top: 29px;
+    right: -123px;
+    top: 28px;
     height: 190px;
     width: 125px;
     border: 1px solid transparent;
@@ -363,14 +368,14 @@ html {
       content: '';
       position: absolute;
       top: 30px;
-      right: 30px;
+      right: 32px;
       height: 190px;
       width: 120px;
       border: 1px solid transparent;
       border-top-color: #8cc4e5;
       border-right-color: #8cc4e5; }
   .stage_burn .stage__tube_gaz {
-    bottom: 92%;
+    bottom: 85px;
     right: -80px;
     height: 190px;
     width: 124px;
@@ -380,7 +385,7 @@ html {
     .stage_burn .stage__tube_gaz:before {
       content: '';
       position: absolute;
-      top: 34px;
+      top: 31px;
       right: -30px;
       height: 190px;
       width: 120px;
@@ -509,7 +514,7 @@ html {
     overflow: hidden;
     right: 0;
     left: auto; }
-  .stage_turbo .stage__tube:last-of-type {
+  .stage_turbo .stage__tube:nth-last-of-type(2) {
     border-width: 2px;
     border-top-color: #ffd441;
     border-bottom-color: #ffd441;
