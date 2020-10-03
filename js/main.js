@@ -4,19 +4,19 @@ class Engine {
   constructor() {
     
   }
-  addState(_state) {
+  addState = (_state) => {
     if(_state.id) {
       this.states.push(_state);
     }
   }
-  init() {
+  init = () => {
     console.log("engine.init()..");
     this.states.forEach(e => {
       e.init();
     }); 
     console.log("engine.init() done");
   }
-  render(_speed) {
+  render = (_speed) => {
     console.log("engine.render()..");
     this.interval = setInterval(() => {
       this.states.forEach(e => {
@@ -24,7 +24,7 @@ class Engine {
       }); 
     }, 100/_speed);
   }
-  stop() {
+  stop = () => {
     console.log("engine.stop()");
     clearInterval(this.interval);
   }
@@ -71,22 +71,22 @@ class Flow {
     this.path = _path;
     this.step = _step;
   }
-  addSprite(_sprite) {
+  addSprite = (_sprite) => {
     if(_sprite) {
       this.sprites.push(_sprite);
     }
   }
-  init() {
+  init = () => {
     console.log("     flow.init()..");
     console.log("         sprites.init()..");
     this.parrentState.innerHTML += '<div class="flows__item" id="' +  this.id + '"></div>';
-    let flowItem = document.getElementById(this.id);
+    const flowItem = document.getElementById(this.id);
 
     if(this.path.length < 2) {
       alert('Задан слишком короткий путь!');
     } else {
-      let first = { x: this.path[0].x, y: this.path[0].y };
-      let second = { x: this.path[1].x, y: this.path[1].y };
+      const first = { x: this.path[0].x, y: this.path[0].y };
+      const second = { x: this.path[1].x, y: this.path[1].y };
 
       this.sprites.forEach((e, index) => {
         flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  this.id + '_' + index + '"></span>';
@@ -95,19 +95,35 @@ class Flow {
         if(second.x != 0 && second.y != 0) {
           alert('Задан некорректный путь!');
         } else if(first.x > second.x) {
-          e.x = -50;
+          if(this.sprites[index + 1]) {
+            this.sprites[index + 1].x += e.gutter;
+          } else {
+            e.x = -e.gutter;
+          }
           e.direction = 2; 
-          e.el().style.transform = "translate(" + e.x + "px, 0)"; //scale(-1, 1)
+          e.el().style.transform = "translate(" + e.x + "px, 0) scale(-1, 1)";
         } else if(first.x < second.x) {
-          e.x = 50;
+          if(this.sprites[index + 1]) {
+            this.sprites[index + 1].x -= e.gutter;
+          } else {
+            e.x = e.gutter;
+          }
           e.direction = 0; 
           e.el().style.transform = "translate(" + e.x + "px, 0)";
         } else if(first.y > second.y) {
-          e.y = -50;
+          if(this.sprites[index + 1]) {
+            this.sprites[index + 1].y += e.gutter;
+          } else {
+            e.y = -e.gutter;
+          }
           e.direction = 3; 
           e.el().style.transform = "translate(0, " + e.y + "px) rotate(-90deg)";
         } else if(first.y < second.y) {
-          e.y = 50;
+          if(this.sprites[index + 1]) {
+            this.sprites[index + 1].y -= e.gutter;
+          } else {
+            e.y = e.gutter;
+          }
           e.direction = 1; 
           e.el().style.transform = "translate(0, " + e.y + "px) rotate(90deg)";
         } 
@@ -117,35 +133,39 @@ class Flow {
     console.log("     flow.init() done");
   }
 
-  getPrevPathStep(_el) {
-    let prevSpriteStep = _el.pathStep - 1;
+  getPrevPathStep = (_el) => {
+    const prevSpriteStep = _el.pathStep - 1;
     if(prevSpriteStep < 0) {
       return false;
     } 
     return this.path[prevSpriteStep];
   }
 
-  getNextPathStep(_el) {
-    let nextSpriteStep = _el.pathStep + 1;
+  getNextPathStep = (_el) => {
+    const nextSpriteStep = _el.pathStep + 1;
     if(nextSpriteStep >= (this.path.length)) {
       return false;
     }
     return this.path[nextSpriteStep];    
   }
 
-  transform(_el, _rotate = 0) {
-    _el.el().style.transform = "translate(" + _el.x + "px, " + _el.y + "px) rotate(" + _rotate + "deg)";
+  #transform(_el, _rotate = 0, _mirror = false) {
+    if(_mirror) {
+      _el.el().style.transform = "translate(" + _el.x + "px, " + _el.y + "px) rotate(" + _rotate + "deg)";
+    } else {
+      _el.el().style.transform = "translate(" + _el.x + "px, " + _el.y + "px) rotate(" + _rotate + "deg)";
+    }
   }
  
-  move() {
-    if(this.isMove) {
+  move = () => {
+    if(this) { //.isMove
       this.sprites.forEach(el => {
         if(!this.getNextPathStep(el)) {
           this.isMove = false;
         } else {
           if(el.direction == 0) {
             if(this.getNextPathStep(el).x >= el.x) {
-              this.transform(el);
+              this.#transform(el);
             } else {
               el.pathStep++;
               if(this.getNextPathStep(el).y >= el.y) {
@@ -157,7 +177,7 @@ class Flow {
             el.x += this.step;
           } else if(el.direction == 1) {
             if(this.getNextPathStep(el).y >= el.y) {
-              this.transform(el, 90);
+              this.#transform(el, 90);
             } else {
               el.pathStep++;
               if(this.getNextPathStep(el).x >= el.x) {
@@ -169,7 +189,7 @@ class Flow {
             el.y += this.step;
           } else if(el.direction == 2) {
             if(this.getNextPathStep(el).x <= el.x) {
-              this.transform(el, 180);
+              this.#transform(el, 180);
             } else {
               el.pathStep++;
               if(this.getNextPathStep(el).y <= el.y) {
@@ -181,7 +201,7 @@ class Flow {
             el.x -= this.step;
           } else if(el.direction == 3) {
             if(this.getNextPathStep(el).y <= el.y) {
-              this.transform(el, 270);
+              this.#transform(el, 270);
             } else {
               el.pathStep++;
               if(this.getNextPathStep(el).x <= el.x) {
@@ -213,11 +233,11 @@ class Sprite {
     this.gutter = _gutter;
     this.split = _split;
   }
-  el() {
+  el = () => {
     return document.getElementById(this.id);
   }
 }
-let reciclePath1 = [
+const reciclePath1 = [
   {
     x: 0,
     y: 0
@@ -235,127 +255,127 @@ let reciclePath1 = [
     y: 0
   }
 ];
-let reciclePath12 = [
+const reciclePath12 = [
   {
     x: 0,
     y: 0
   },{
     x: 0,
-    y: 150
+    y: 100
   },{
-    x: 150,
-    y: 150
+    x: 100,
+    y: 100
   },{
-    x: 150,
+    x: 100,
     y: 0
   },{
     x: 0,
     y: 0
   }
 ];
-let reciclePath2 = [
+const reciclePath2 = [
   {
     x: 0,
     y: 0
   },{
     x: 0,
-    y: 150
+    y: 100
   },{
-    x: -150,
-    y: 150
+    x: -100,
+    y: 100
   },{
-    x: -150,
+    x: -100,
     y: 0
   },{
     x: 0,
     y: 0
   }
 ];
-let reciclePath22 = [
+const reciclePath22 = [
   {
     x: 0,
     y: 0
   },{
-    x: -150,
+    x: -100,
     y: 0
   },{
-    x: -150,
-    y: 150
+    x: -100,
+    y: 100
   },{
     x: 0,
-    y: 150
+    y: 100
   },{
     x: 0,
     y: 0
   }
 ];
-let reciclePath3 = [
+const reciclePath3 = [
   {
     x: 0,
     y: 0
   },{
-    x: -150,
+    x: -100,
     y: 0
   },{
-    x: -150,
-    y: -150
+    x: -100,
+    y: -100
   },{
     x: 0,
-    y: -150
+    y: -100
   },{
     x: 0,
     y: 0
   }
 ];
-let reciclePath32 = [
+const reciclePath32 = [
   {
     x: 0,
     y: 0
   },{
     x: 0,
-    y: -150
+    y: -100
   },{
-    x: -150,
-    y: -150
+    x: -100,
+    y: -100
   },{
-    x: -150,
-    y: 0
-  },{
-    x: 0,
-    y: 0
-  }
-];
-let reciclePath4 = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: 0,
-    y: -150
-  },{
-    x: 150,
-    y: -150
-  },{
-    x: 150,
+    x: -100,
     y: 0
   },{
     x: 0,
     y: 0
   }
 ];
-let reciclePath42 = [
+const reciclePath4 = [
   {
     x: 0,
     y: 0
   },{
-    x: 150,
+    x: 0,
+    y: -100
+  },{
+    x: 100,
+    y: -100
+  },{
+    x: 100,
     y: 0
   },{
-    x: 150,
-    y: -150
+    x: 0,
+    y: 0
+  }
+];
+const reciclePath42 = [
+  {
+    x: 0,
+    y: 0
+  },{
+    x: 100,
+    y: 0
+  },{
+    x: 100,
+    y: -100
   },{
     x: 0,
-    y: -150
+    y: -100
   },{
     x: 0,
     y: 0
@@ -364,27 +384,27 @@ let reciclePath42 = [
 
 
 // Создание потока
-let recicleFlow1 = new Flow(reciclePath1, 2);
-let recicleFlow12 = new Flow(reciclePath12, 2);
+const recicleFlow1 = new Flow(reciclePath1, 2);
+const recicleFlow12 = new Flow(reciclePath12, 2);
 
-let recicleFlow2 = new Flow(reciclePath2, 2);
-let recicleFlow22 = new Flow(reciclePath22, 2);
+const recicleFlow2 = new Flow(reciclePath2, 2);
+const recicleFlow22 = new Flow(reciclePath22, 2);
 
-let recicleFlow3 = new Flow(reciclePath3, 2);
-let recicleFlow32 = new Flow(reciclePath32, 2);
+const recicleFlow3 = new Flow(reciclePath3, 2);
+const recicleFlow32 = new Flow(reciclePath32, 2);
 
-let recicleFlow4 = new Flow(reciclePath4, 2);
-let recicleFlow42 = new Flow(reciclePath42, 2);
+const recicleFlow4 = new Flow(reciclePath4, 2);
+const recicleFlow42 = new Flow(reciclePath42, 2);
 
 // Наполнение потока спрайтами
-for(let i = 0; i < 2; i++) {
+for(let i = 0; i < 3; i++) {
   // if(i % 3) {
   //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
   // } else {
   //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
   // }
 
-  recicleFlow1.addSprite(new Sprite('icon-smoke', 20, false));
+  recicleFlow1.addSprite(new Sprite('icon-smoke', 30, false));
   recicleFlow12.addSprite(new Sprite('icon-smoke', 20, false));
   recicleFlow2.addSprite(new Sprite('icon-smoke', 20, false));
   recicleFlow22.addSprite(new Sprite('icon-smoke', 20, false));
@@ -395,7 +415,7 @@ for(let i = 0; i < 2; i++) {
 }
 
 // Создание позиции
-let recicleState = new State('recicle');
+const recicleState = new State('recicle');
 
 // Добавление потока в позицию
 recicleState.addFlow(recicleFlow1);
