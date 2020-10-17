@@ -64,12 +64,14 @@ class Flow {
   sprites = [];
   path = [];
   parrentState;
+  //split = 0;
   isMove = true;
   velocity;
   tick;
 
-  constructor(_path, _velocity) {
+  constructor(_path, _velocity, _split = 0) {
     this.path = _path;
+    //this.split = _split;
     this.velocity = 100/_velocity;
     this.tick = this.velocity;
   }
@@ -78,9 +80,9 @@ class Flow {
       this.sprites.push(_sprite);
     }
   }
-  addSprites = (_icon, _gutter, _split, _amount) => {
+  addSprites = (_icon, _gutter, _amount) => {
     for(let i = 0; i < _amount; i++) {
-      this.sprites.push(new Sprite(_icon, _gutter, _split));
+      this.sprites.push(new Sprite(_icon, _gutter));
     }
   }
   init = () => {
@@ -242,16 +244,14 @@ class Sprite {
   id;
   icon;
   gutter;
-  split;
   pathStep = 0;
   curDirection;
   direction;
   x = 0;
   y = 0;
-  constructor(_icon, _gutter, _split) {
+  constructor(_icon, _gutter) {
     this.icon = _icon;
     this.gutter = _gutter;
-    this.split = _split;
   }
   el = () => {
     return document.getElementById(this.id);
@@ -259,7 +259,7 @@ class Sprite {
 }
 const reciclePath = [{x: 0, y: 0}, {x: 208, y: 0}],
       wastePath = [{x: 0, y: 0}, {x: 144, y: 0}, {x: 144, y: 205}],
-      couplesPath = [{x: 19, y: 0},{x: 19, y: 99}, {x: 157, y: 99},{x: 157,y: 170}],
+      couplesPath = [{x: 19, y: 0},{x: 19, y: 99}, {x: 157, y: 99},{x: 157,y: 175}],
       gasPath = [{x: 21, y: 0},{x: 21, y: -209}, { x: 160, y: -209}],
       condensatePath = [{x: 0, y: 0}, {x: 0, y: -96}, {x: 135, y: -96},{x: 135, y: -155}],
       couplesPath2 = [{x: 0, y: 0}, {x: -275, y: 0}],
@@ -281,15 +281,15 @@ const recicleFlow = new Flow(reciclePath, 70),
 
 //Наполнение потока спрайтами
 //icon, gutter, split, amount
-recicleFlow.addSprites('icon-recicle-flow', 30, 0, 7);
-couplesFlow.addSprites('icon-couples', 40, 0, 8);
-couplesFlow2.addSprites('icon-couples', 35, 0, 8);
-electricityFlow.addSprites('icon-flash-other', 25, 0, 8);
-ashFlow.addSprites('icon-filter-tube', 25, 0, 8);
-wasteFlow.addSprites('icon-recicle-flow', 40, 0, 9);
-gasFlow.addSprites('icon-smoke', 45, 0, 9);
-slagFlow.addSprites('icon-burn-flow', 35, 0, 10);
-condensateFlow.addSprites('icon-condensate', 30, 0, 11);
+recicleFlow.addSprites('icon-recicle-flow', 30, 7);
+couplesFlow.addSprites('icon-couples', 40, 8);
+couplesFlow2.addSprites('icon-couples', 35, 8, 8);
+electricityFlow.addSprites('icon-flash-other', 25, 8);
+ashFlow.addSprites('icon-filter-tube', 25, 8);
+wasteFlow.addSprites('icon-recicle-flow', 40, 9);
+gasFlow.addSprites('icon-smoke', 45, 9);
+slagFlow.addSprites('icon-burn-flow', 35, 10);
+condensateFlow.addSprites('icon-condensate', 30, 11);
 
 // Создание позиции
 const recicleState = new State('recicle'),
