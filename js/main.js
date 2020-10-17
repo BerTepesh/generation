@@ -78,6 +78,11 @@ class Flow {
       this.sprites.push(_sprite);
     }
   }
+  addSprites = (_icon, _gutter, _split, _amount) => {
+    for(let i = 0; i < _amount; i++) {
+      this.sprites.push(new Sprite(_icon, _gutter, _split));
+    }
+  }
   init = () => {
     console.log("     flow " + this.id + ".init()..");
     console.log("         sprites.init()..");
@@ -263,7 +268,8 @@ const reciclePath = [{x: 0, y: 0}, {x: 208, y: 0}],
       slagPath = [{x: 0, y: 0},{x: 350, y: 0}];
 
 //Создание потоков
-const recicleFlow = new Flow(reciclePath, 70), // скорость (0-100)
+//path, velocity(0-100)
+const recicleFlow = new Flow(reciclePath, 70),
       wasteFlow = new Flow(wastePath, 40),
       couplesFlow = new Flow(couplesPath, 50),
       gasFlow = new Flow(gasPath, 40),
@@ -274,50 +280,16 @@ const recicleFlow = new Flow(reciclePath, 70), // скорость (0-100)
       slagFlow = new Flow(slagPath, 40);
 
 //Наполнение потока спрайтами
-for(let i = 0; i < 7; i++) {
-  // if(i % 3) {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
-  // } else {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
-  // }
-  recicleFlow.addSprite(new Sprite('icon-recicle-flow', 30, false));
-}
-for(let i = 0; i < 8; i++) {
-  // if(i % 3) {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
-  // } else {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
-  // }
-  couplesFlow.addSprite(new Sprite('icon-couples', 40, false));
-  couplesFlow2.addSprite(new Sprite('icon-couples', 35, false));
-  electricityFlow.addSprite(new Sprite('icon-flash-other', 25, false));
-  ashFlow.addSprite(new Sprite('icon-filter-tube', 25, false));
-}
-for(let i = 0; i < 9; i++) {
-  // if(i % 3) {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
-  // } else {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
-  // }
-  wasteFlow.addSprite(new Sprite('icon-recicle-flow', 40, false));
-  gasFlow.addSprite(new Sprite('icon-smoke', 45, false));
-}
-for(let i = 0; i < 10; i++) {
-  // if(i % 3) {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
-  // } else {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
-  // }
-  slagFlow.addSprite(new Sprite('icon-burn-flow', 35, false));
-}
-for(let i = 0; i < 11; i++) {
-  // if(i % 3) {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
-  // } else {
-  //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, true));
-  // }
-  condensateFlow.addSprite(new Sprite('icon-condensate', 30, false));
-}
+//icon, gutter, split, amount
+recicleFlow.addSprites('icon-recicle-flow', 30, 0, 7);
+couplesFlow.addSprites('icon-couples', 40, 0, 8);
+couplesFlow2.addSprites('icon-couples', 35, 0, 8);
+electricityFlow.addSprites('icon-flash-other', 25, 0, 8);
+ashFlow.addSprites('icon-filter-tube', 25, 0, 8);
+wasteFlow.addSprites('icon-recicle-flow', 40, 0, 9);
+gasFlow.addSprites('icon-smoke', 45, 0, 9);
+slagFlow.addSprites('icon-burn-flow', 35, 0, 10);
+condensateFlow.addSprites('icon-condensate', 30, 0, 11);
 
 // Создание позиции
 const recicleState = new State('recicle'),
@@ -326,9 +298,6 @@ const recicleState = new State('recicle'),
       capacitorState = new State('capacitor'),
       turboState = new State('turbo'),
       filterState = new State('filter');
-
-// Создание движка
-const engine = new Engine();
 
 // Добавление потока в позицию
 recicleState.addFlow(recicleFlow);
@@ -340,6 +309,9 @@ capacitorState.addFlow(condensateFlow);
 turboState.addFlow(couplesFlow2);
 turboState.addFlow(electricityFlow);
 filterState.addFlow(ashFlow);
+
+// Создание движка
+const engine = new Engine();
 
 // Доавление позиции в движок
 engine.addState(recicleState);
@@ -355,3 +327,4 @@ engine.init();
 // Рендер (скорость 0 - 100)
 engine.render(20);
 
+//перевести в es5
