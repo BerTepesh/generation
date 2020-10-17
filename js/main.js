@@ -36,7 +36,7 @@ class State {
     if(document.getElementById(_id)) {
       this.id = _id;
     } else {
-      console.log("state.init() flow (" + _id + ") not found");
+      console.log("state" + this.id + ".init() flow not found");
     }
   }
   addFlow(_flow) {
@@ -45,13 +45,13 @@ class State {
     }
   }
   init() {
-    console.log("   state.init()..");
+    console.log("   state " + this.id + ".init()..");
     this.flows.forEach((e, index) => {
       e.id = this.id + '_' + index;
       e.parrentState = document.getElementById(this.id);
       e.init();
     });
-    console.log("   state.init() done");
+    console.log("   state " + this.id + ".init() done");
   }
   move() {
     this.flows.forEach(e => {
@@ -79,7 +79,7 @@ class Flow {
     }
   }
   init = () => {
-    console.log("     flow.init()..");
+    console.log("     flow " + this.id + ".init()..");
     console.log("         sprites.init()..");
     this.parrentState.innerHTML += '<div class="flows__item" id="' +  this.id + '"></div>';
     const flowItem = document.getElementById(this.id);
@@ -133,7 +133,7 @@ class Flow {
       });
     }
     console.log("         sprites.init() done");
-    console.log("     flow.init() done");
+    console.log("     flow " + this.id + ".init() done");
   }
 
   getPrevPathStep = (_el) => {
@@ -252,119 +252,28 @@ class Sprite {
     return document.getElementById(this.id);
   }
 }
-const reciclePath = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: 208,
-    y: 0
-  }
-];
-const wastePath = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: 144,
-    y: 0
-  },{
-    x: 144,
-    y: 205
-  }
-];
-const couplesPath = [
-  {
-    x: 19,
-    y: 0
-  },{
-    x: 19,
-    y: 99
-  },{
-    x: 157,
-    y: 99
-  },{
-    x: 157,
-    y: 170
-  }
-];
-const gasPath = [
-  {
-    x: 21,
-    y: 0
-  },{
-    x: 21,
-    y: -209
-  },{
-    x: 160,
-    y: -209
-  }
-];
-const condensatePath = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: 0,
-    y: -96
-  },{
-    x: 135,
-    y: -96
-  },{
-    x: 135,
-    y: -155
-  }
-];
-const couplesPath2 = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: -275,
-    y: 0
-  }
-];
-const electricityPath = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: 195,
-    y: 0
-  }
-];
-const ashPath = [
-  {
-    x: 0,
-    y: -13
-  },{
-    x: 195,
-    y: -13
-  }
-];
-const slagPath = [
-  {
-    x: 0,
-    y: 0
-  },{
-    x: 350,
-    y: 0
-  }
-];
+const reciclePath = [{x: 0, y: 0}, {x: 208, y: 0}],
+      wastePath = [{x: 0, y: 0}, {x: 144, y: 0}, {x: 144, y: 205}],
+      couplesPath = [{x: 19, y: 0},{x: 19, y: 99}, {x: 157, y: 99},{x: 157,y: 170}],
+      gasPath = [{x: 21, y: 0},{x: 21, y: -209}, { x: 160, y: -209}],
+      condensatePath = [{x: 0, y: 0}, {x: 0, y: -96}, {x: 135, y: -96},{x: 135, y: -155}],
+      couplesPath2 = [{x: 0, y: 0}, {x: -275, y: 0}],
+      electricityPath = [{x: 0, y: 0}, {x: 195, y: 0}],
+      ashPath = [{x: 0, y: -13},{x: 195, y: -13}],
+      slagPath = [{x: 0, y: 0},{x: 350, y: 0}];
 
+//Создание потоков
+const recicleFlow = new Flow(reciclePath, 70), // скорость (0-100)
+      wasteFlow = new Flow(wastePath, 40),
+      couplesFlow = new Flow(couplesPath, 50),
+      gasFlow = new Flow(gasPath, 40),
+      condensateFlow = new Flow(condensatePath, 30),
+      couplesFlow2 = new Flow(couplesPath2, 20),
+      electricityFlow = new Flow(electricityPath, 30),
+      ashFlow = new Flow(ashPath, 30),
+      slagFlow = new Flow(slagPath, 40);
 
-// Создание потока
-const recicleFlow = new Flow(reciclePath, 70); // скорость (0-100)
-const wasteFlow = new Flow(wastePath, 40);
-const couplesFlow = new Flow(couplesPath, 50);
-const gasFlow = new Flow(gasPath, 40);
-const condensateFlow = new Flow(condensatePath, 30);
-const couplesFlow2 = new Flow(couplesPath2, 20);
-const electricityFlow = new Flow(electricityPath, 10);
-const ashFlow = new Flow(ashPath, 30);
-const slagFlow = new Flow(slagPath, 40);
-
-// Наполнение потока спрайтами
+//Наполнение потока спрайтами
 for(let i = 0; i < 7; i++) {
   // if(i % 3) {
   //   recicleFlow.addSprite(new Sprite('icon-smoke', 20, false));
@@ -411,12 +320,15 @@ for(let i = 0; i < 11; i++) {
 }
 
 // Создание позиции
-const recicleState = new State('recicle');
-const bunkerState = new State('bunker');
-const burnState = new State('burn');
-const capacitorState = new State('capacitor');
-const turboState = new State('turbo');
-const filterState = new State('filter');
+const recicleState = new State('recicle'),
+      bunkerState = new State('bunker'),
+      burnState = new State('burn'),
+      capacitorState = new State('capacitor'),
+      turboState = new State('turbo'),
+      filterState = new State('filter');
+
+// Создание движка
+const engine = new Engine();
 
 // Добавление потока в позицию
 recicleState.addFlow(recicleFlow);
@@ -428,9 +340,6 @@ capacitorState.addFlow(condensateFlow);
 turboState.addFlow(couplesFlow2);
 turboState.addFlow(electricityFlow);
 filterState.addFlow(ashFlow);
-
-// Создание движка
-const engine = new Engine();
 
 // Доавление позиции в движок
 engine.addState(recicleState);
@@ -444,5 +353,5 @@ engine.addState(filterState);
 engine.init();
 
 // Рендер (скорость 0 - 100)
-engine.render(30);
+engine.render(20);
 
