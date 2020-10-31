@@ -36,7 +36,7 @@ class State {
     if(document.getElementById(_id)) {
       this.id = _id;
     } else {
-      console.log("state" + this.id + ".init() flow not found");
+      console.log(`state ${this.id}.init() flow not found`);
     }
   }
   addFlow(_flow) {
@@ -45,13 +45,13 @@ class State {
     }
   }
   init() {
-    console.log("   state " + this.id + ".init()..");
+    console.log(`   state ${this.id}.init()..`);
     this.flows.forEach((e, index) => {
-      e.id = this.id + '_' + index;
+      e.id = `${this.id}_${index}`;
       e.parrentState = document.getElementById(this.id);
       e.init();
     });
-    console.log("   state " + this.id + ".init() done");
+    console.log(`   state ${this.id}.init() done`);
   }
   move() {
     this.flows.forEach(e => {
@@ -86,9 +86,9 @@ class Flow {
     }
   }
   init = () => {
-    console.log("     flow " + this.id + ".init()..");
+    console.log(`     flow ${this.id}.init()..`);
     console.log("         sprites.init()..");
-    this.parrentState.innerHTML += '<div class="flows__item" id="' +  this.id + '"></div>';
+    this.parrentState.innerHTML += `<div class="flows__item" id="${this.id}"></div>`;
     const flowItem = document.getElementById(this.id);
 
     if(this.path.length < 2) {
@@ -98,8 +98,8 @@ class Flow {
       const second = { x: this.path[1].x, y: this.path[1].y };
 
       this.sprites.forEach((e, index) => {
-        flowItem.innerHTML += '<span class="' +  e.icon + '" id="' +  this.id + '_' + index + '"></span>';
-        e.id = this.id + '_' + index;
+        flowItem.innerHTML += `<span class="${e.icon}" id="${this.id}_${index}"></span>`;
+        e.id = `${this.id}_${index}`;
         if(first.x > second.x) {
           if(index == 0) {
             e.x = -e.gutter;
@@ -140,7 +140,7 @@ class Flow {
       });
     }
     console.log("         sprites.init() done");
-    console.log("     flow " + this.id + ".init() done");
+    console.log(`     flow ${this.id}.init() done`);
   }
 
   getPrevPathStep = (_el) => {
@@ -161,9 +161,9 @@ class Flow {
 
   #transform(_el, _rotate = 0, _mirror = false) {
     if(_mirror) {
-      _el.el().style.transform = "translate(" + _el.x + "px, " + _el.y + "px) rotate(" + _rotate + "deg)";
+      _el.el().style.transform = `translate(${_el.x}px, ${_el.y}px) rotate(${_rotate}deg)`;
     } else {
-      _el.el().style.transform = "translate(" + _el.x + "px, " + _el.y + "px) rotate(" + _rotate + "deg)";
+      _el.el().style.transform = `translate(${_el.x}px, ${_el.y}px) rotate(${_rotate}deg)`;
     }
   }
   move = () => {
@@ -257,6 +257,8 @@ class Sprite {
     return document.getElementById(this.id);
   }
 }
+
+//Пути
 const reciclePath = [{x: 0, y: 0}, {x: 208, y: 0}],
       wastePath = [{x: 0, y: 0}, {x: 144, y: 0}, {x: 144, y: 205}],
       couplesPath = [{x: 19, y: 0},{x: 19, y: 99}, {x: 157, y: 99},{x: 157,y: 175}],
@@ -279,8 +281,8 @@ const recicleFlow = new Flow(reciclePath, 70),
       ashFlow = new Flow(ashPath, 30),
       slagFlow = new Flow(slagPath, 40);
 
-//Наполнение потока спрайтами
-//icon, gutter, split, amount
+//Наполнение потоков спрайтами
+//icon, gutter, amount
 recicleFlow.addSprites('icon-recicle-flow', 30, 7);
 couplesFlow.addSprites('icon-couples', 40, 8);
 couplesFlow2.addSprites('icon-couples', 35, 8, 8);
@@ -299,7 +301,7 @@ const recicleState = new State('recicle'),
       turboState = new State('turbo'),
       filterState = new State('filter');
 
-// Добавление потока в позицию
+// Добавление потоков в позиции
 recicleState.addFlow(recicleFlow);
 bunkerState.addFlow(wasteFlow);
 burnState.addFlow(couplesFlow);
@@ -327,4 +329,5 @@ engine.init();
 // Рендер (скорость 0 - 100)
 engine.render(20);
 
-//перевести в es5
+
+
